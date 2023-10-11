@@ -1,0 +1,6 @@
+module Pods_AstoneWeather {
+  umbrella header "Pods-AstoneWeather-umbrella.h"
+
+  export *
+  module * { export * }
+}
