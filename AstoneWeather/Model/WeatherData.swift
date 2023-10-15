@@ -7,87 +7,126 @@
 
 import Foundation
 
-struct WeatherData {
-    let name: String?
-    let coordinat: Coordinate
-    let tempAndHum: TemAndHum
-    let wind: Wind
+// MARK: - Weather Data Structures
+
+ struct WeatherData: Codable {
+    let main: Main
     let weather: [Weather]
-    let country: Country
-    
+    let coord: Coord
+    let wind: Wind
+    let visibility: Int
+    let clouds: Clouds
+    let name: String
+    let cod: Int
+}
+
+struct Main: Codable {
+    let temp: Double
+    let feels_like: Double
+    let pressure: Double
+    let humidity: Int
 
 }
 
 
-struct Coordinate: Codable {
+struct Coord: Codable {
     let lon, lat: Double
 }
 
-struct TemAndHum: Codable {
-    let tempreture: Double?
-    let humidity: Int?
-}
-
-struct Wind: Codable {
-    let speed: Double?
-}
 
 struct Weather: Codable {
     let id: Int
+    let main: String
+    let icon: String
 }
 
-struct Country {
-    let country: String?
+struct Clouds: Codable {
+    let all: Int
 }
 
-extension WeatherData {
-    var cityName: String {
-        return name ?? "Unknown"
+struct Wind: Codable {
+    let speed: Double
+}
+
+
+// MARK: - Weekly Weather Data Structures
+
+
+
+struct WeekData: Codable {
+    let list: [List]
+}
+
+struct List: Codable {
+    let main: MainClass
+    let weather: [WeatherWeek]
+}
+
+struct MainClass: Codable {
+    let temp: Double?
+}
+
+struct WeatherWeek: Codable {
+    let id: Int
+}
+struct WeatherWeekModel {
+    var day: String
+    var temp: String
+}
+
+// MARK: - WeekData Extension
+
+extension WeekData {
+    
+    var temp1String: String {
+        if let temp = list[0].main.temp  {
+            return "\(String(format: "%.0f", temp - 273.15))°C"
+        } else {
+            return "N/A"
+        }
     }
-    var temperaureString: String {
-        return String(format: "%.1f", tempAndHum.tempreture ?? 0.0)
-    }
-    var humidityString: String {
-        return "\(tempAndHum.humidity ?? 0) %"
-    }
-    var windString: String {
-        return "\(wind.speed ?? 0)"
-    }
-    var countryString: String {
-        return country.country ?? "Unknown"
+    var temp2String: String {
+        if let temp = list[7].main.temp  {
+            return "\(String(format: "%.0f", temp - 273.15))°C"
+        } else {
+            return "N/A"
+        }
     }
     
+    var temp3String: String {
+        if let temp = list[14].main.temp {
+            return "\(String(format: "%.0f", temp - 273.15))°C"
+        } else {
+            return "N/A"
+        }
+    }
+    
+    var temp4String: String {
+        if let temp = list[21].main.temp {
+            return "\(String(format: "%.0f", temp - 273.15))°C"
+        } else {
+            return "N/A"
+        }
+    }
+    
+    var temp5String: String {
+        if let temp = list[28].main.temp {
+            return "\(String(format: "%.0f", temp - 273.15))°C"
+        } else {
+            return "N/A"
+        }
+    }
+
+var nextWeekArray: [WeatherWeekModel] {
+    return [WeatherWeekModel(day: Converter.shared.dateToString(day: 1), temp: temp1String),
+            WeatherWeekModel(day: Converter.shared.dateToString(day: 2), temp: temp2String),
+            WeatherWeekModel(day: Converter.shared.dateToString(day: 3), temp: temp3String),
+            WeatherWeekModel(day: Converter.shared.dateToString(day: 4), temp: temp4String),
+            WeatherWeekModel(day: Converter.shared.dateToString(day: 5), temp: temp5String)]
 }
-
-
-//    
-//    var countryString: String {
-//        return sys.country ?? "N/A"
-//    }
-//    
-//    func getConditionImageName() -> String {
-//        if let condition = weather.first?.id {
-//            switch condition {
-//            case 200...232:
-//                return "thunderImage"
-//            case 300...321, 500...531:
-//                return "rainSunImage"
-//            case 600...622:
-//                return "snowImage"
-//            case 701...781:
-//                return "cloudyImage"
-//            case 800:
-//                return "sunLittle"
-//            case 801...804:
-//                return "thunderImage"
-//            default:
-//                return "cloudyImage"
-//            }
-//        }
-//        return "cloudyImage"
-//    }
-//    
-//    var conditionName: String {
-//        return getConditionImageName()
-//    }
-//}
+    func getDayOfWeek(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE" // Specifies the format for the day of the week
+        return dateFormatter.string(from: date)
+    }
+}

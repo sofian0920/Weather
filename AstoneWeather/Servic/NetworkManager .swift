@@ -9,23 +9,54 @@ import Foundation
 import CoreLocation
 
 
-class NetworkManager {
-    let weathDayUrl = "https://api.openweathermap.org/data/2.5/weather?appid=91e5d58992af1530198417d1084df956&&units=metric"
+enum RequestType: String {
+    case GET
+    case POST
+}
+
+
+final class NetworkManager {
+    
+    // MARK: - Properties
+
+    let weathDayUrl = "https://api.openweathermap.org/data/2.5/weather?appid=3186c0d06f570f4f5d7d652f075465e8&&units=metric"
     
     static let shared = NetworkManager()
     
-    func fetchWeatherData(city: String, complition: @escaping (Result<WeatherData, Error>) -> Void) {
-        let url = "\(weathDayUrl)&q=\(city)"
+    
+    // MARK: - Weather Data Fetch
+    
+    func fetchWeatherData(city: String, completion: @escaping (Result<WeatherData, Error>) -> Void) {
+        let urlString = "\(weathDayUrl)&q=\(city)"
+        sendRequest(with: urlString, ReqestType: RequestType.GET, decodType: WeatherData.self, completion: completion)
     }
     
-    func sendRequest<T:Codable>(with url: String, decodType: T.Type, completion: @escaping (Result<T, Error>) -> Void){
+    func fetchWeatherWeekData(city: String, copmletion: @escaping (Result<WeekData, Error>) -> Void) {
+        let urlString = "https://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=3186c0d06f570f4f5d7d652f075465e8"
+        sendRequest(with: urlString, ReqestType: RequestType.GET, decodType: WeekData.self, completion: copmletion)
+    }
+    
+    func fetchWeatherWithLocation(lat: CLLocationDegrees, lon: CLLocationDegrees, completion: @escaping (Result<WeatherData, Error>) -> Void) {
+        let urlString = "\(weathDayUrl)&lat=\(lat)&lon=\(lon)"
+        sendRequest(with: urlString, ReqestType: RequestType.GET, decodType: WeatherData.self, completion: completion)
+    }
+
+    
+    func fetchWeekWeatherWithLocation(lat: CLLocationDegrees, lon: CLLocationDegrees, completion: @escaping (Result<WeekData, Error>) -> Void) {
+        let urlString = "https://api.openweathermap.org/data/2.5/forecast?&lat=\(lat)&lon=\(lon)&appid=3186c0d06f570f4f5d7d652f075465e8"
+        sendRequest(with: urlString, ReqestType: RequestType.GET, decodType: WeekData.self, completion: completion)
+    }
+    
+    // MARK: - Network Request
+    
+    func sendRequest<T:Codable>(with url: String, ReqestType: RequestType, decodType: T.Type, completion: @escaping (Result<T, Error>) -> Void){
         guard let url = URL(string: url) else {
             completion(.failure(CustomeError.invalidURL))
             return
         }
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = ReqestType.rawValue
         
         let task =  URLSession.shared.dataTask(with: url){ data, response, error in
             guard let data = data else {

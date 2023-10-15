@@ -35,6 +35,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         return location
     }
     
+    // MARK: - CLLocationManagerDelegate
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let lastLocation = locations.last {
             updateLocation.onNext(lastLocation)
