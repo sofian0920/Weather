@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import CoreLocation
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -21,17 +21,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Initialization
     
-    init(viewModel: WeatherViewModel) {
+    init(viewModel: WeatherViewModelType) {
+        self.viewModel = viewModel as! WeatherViewModel
         super.init(nibName: nil, bundle: nil)
-        self.viewModel = viewModel
         
-        self.viewModel.weatherDataObservable.compactMap { $0 }
+        self.viewModel.weatherData.compactMap { $0 }
             .observeOn(MainScheduler.instance)
             .subscribe { [weak self] weatherData in
                 self?.weatherView.setUp(with: weatherData)
             }.disposed(by: disposeBag)
         
-        self.viewModel.weekDataObservable
+        self.viewModel.nextWeekData
             .compactMap { $0 }
             .observeOn(MainScheduler.instance)
             .subscribe { [weak self] _ in
@@ -78,7 +78,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
         func bindView() {
             weatherView.weatherTodayCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-            viewModel.weekDataObservable
+            viewModel.nextWeekData
                 .map { $0?.nextWeekArray ?? [] }
                 .asDriver(onErrorJustReturn: [])
                 .drive(weatherView.weatherTodayCollectionView.rx.items(cellIdentifier: WeatherViewCell.identifier, cellType: WeatherViewCell.self)) { (_, weatherWeekModel, cell) in
@@ -89,18 +89,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Location Manager
 
     
-        func setupLocationManager() {
-            LocationManager.shared.getLocation()
-                .subscribe(onNext: { [weak self] loc in
-                    self?.viewModel.fetchWeatherWithLocation(lat: loc.lat, lon: loc.lon)
-                    self?.viewModel.fetchWeekWeatherWithLocation(lat: loc.lat, lon: loc.lon)
-                }, onError: { error in
-                    print("Location error: \(error.localizedDescription)")
-                })
-                .disposed(by: disposeBag)
-        }
+    func setupLocationManager() {
+        LocationManager.shared.getCurrentLocation()
+            .subscribe(onNext: { [weak self] location in
+                self?.viewModel.fetchWeatherWithLocation(latitude: location.latitude, longitude: location.longitude)
+                self?.viewModel.fetchWeekWeatherWithLocation(latitude: location.latitude, longitude: location.longitude)
+            }, onError: { error in
+                print("Location error: \(error.localizedDescription)")
+            })
+            .disposed(by: disposeBag)
     }
-
+}
     // MARK: - UICollectionViewDelegateFlowLayout
     extension ViewController: UICollectionViewDelegateFlowLayout {
         

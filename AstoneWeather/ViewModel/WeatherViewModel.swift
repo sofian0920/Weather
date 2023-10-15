@@ -10,78 +10,76 @@ import CoreLocation
 import RxSwift
 import RxCocoa
 
-protocol WeatherViewModelProtocol {
-    var  weatherDataObservable: Observable<WeatherData?> { get }
-    var  weekDataObservable: Observable<WeekData?> { get }
+protocol WeatherViewModelType {
+    var weatherData: Observable<WeatherData?> { get }
+    var nextWeekData: Observable<WeekData?> { get }
+    var modelDidChange: (() -> Void)? { get set }
     func fetchWeatherData(city: String)
     func fetchWeatherWeekData(city: String)
-    func fetchWeatherWithLocation(lat: CLLocationDegrees, lon: CLLocationDegrees)
-    func fetchWeekWeatherWithLocation(lat: CLLocationDegrees, lon: CLLocationDegrees)
+    func fetchWeatherWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees)
+    func fetchWeekWeatherWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees)
 }
 
-class WeatherViewModel {
+class WeatherViewModel: WeatherViewModelType {
+    private let disposeBag = DisposeBag()
+    private let _weatherData = BehaviorRelay<WeatherData?>(value: nil)
+    private let _nextWeekData = BehaviorRelay<WeekData?>(value: nil)
     
-    // MARK: - Properties
+    var modelDidChange: (() -> Void)?
     
-        private let disposeBag = DisposeBag()
-        private let weatherData = BehaviorRelay<WeatherData?>(value: nil)
-        private let weekData = BehaviorRelay<WeekData?>(value: nil)
-        
+    var weatherData: Observable<WeatherData?> {
+        return _weatherData.asObservable()
+    }
     
-    // MARK: - Observables
+    var nextWeekData: Observable<WeekData?> {
+        return _nextWeekData.asObservable()
+    }
     
-        var weatherDataObservable: Observable<WeatherData?> {
-            return weatherData.asObservable()
-        }
-        
-        var weekDataObservable: Observable<WeekData?> {
-            return weekData.asObservable()
-        }
-        
-    // MARK: - Data Fetching
-    
-        func fetchWeatherData(city: String) {
-            NetworkManager.shared.fetchWeatherData(city: city) { [weak self] result in
-                switch result {
-                case .success(let weatherData):
-                    self?.weatherData.accept(weatherData)
-                case .failure(let error):
-                    print("Failed to fetch weather data:", error)
-                }
-            }
-        }
-        
-        func fetchWeatherWithLocation(lat: CLLocationDegrees, lon: CLLocationDegrees) {
-            NetworkManager.shared.fetchWeatherWithLocation(lat: lat, lon: lon) { [weak self] result in
-                switch result {
-                case .success(let weatherData):
-                    self?.weatherData.accept(weatherData)
-                case .failure(let error):
-                    print("Failed to fetch weather data:", error)
-                }
-            }
-        }
-        
-        func fetchWeatherWeekData(city: String) {
-            NetworkManager.shared.fetchWeatherWeekData(city: city) { [weak self] result in
-                switch result {
-                case .success(let nextWeekData):
-                    self?.weekData.accept(nextWeekData)
-                case .failure(let error):
-                    print("Failed to fetch week weather data:", error)
-                }
-            }
-        }
-        
-        func fetchWeekWeatherWithLocation(lat: CLLocationDegrees, lon: CLLocationDegrees) {
-            NetworkManager.shared.fetchWeekWeatherWithLocation(lat: lat, lon: lon) { [weak self] result in
-                switch result {
-                case .success(let nextWeekData):
-                    self?.weekData.accept(nextWeekData)
-                case .failure(let error):
-                    print("Failed to fetch week weather data:", error)
-                }
+    func fetchWeatherData(city: String) {
+        NetworkManager.shared.fetchWeatherData(city: city) { [weak self] result in
+            switch result {
+            case .success(let weatherData):
+                self?._weatherData.accept(weatherData)
+                self?.modelDidChange?()
+            case .failure(let error):
+                print("Failed to fetch data:", error)
             }
         }
     }
-
+    
+    func fetchWeatherWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+        NetworkManager.shared.fetchWeatherWithLocation(lat: latitude, lon: longitude) { [weak self] result in
+            switch result {
+            case .success(let weatherData):
+                self?._weatherData.accept(weatherData)
+                self?.modelDidChange?()
+            case .failure(let error):
+                print("Failed to fetch data:", error)
+            }
+        }
+    }
+    
+    func fetchWeatherWeekData(city: String) {
+        NetworkManager.shared.fetchWeatherWeekData(city: city) { [weak self] result in
+            switch result {
+            case .success(let nextWeekData):
+                self?._nextWeekData.accept(nextWeekData)
+                self?.modelDidChange?()
+            case .failure(let error):
+                print("Failed to fetch data:", error)
+            }
+        }
+    }
+    
+    func fetchWeekWeatherWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+        NetworkManager.shared.fetchWeekWeatherWithLocation(lat: latitude, lon: longitude) { [weak self] result in
+            switch result {
+            case .success(let nextWeekData):
+                self?._nextWeekData.accept(nextWeekData)
+                self?.modelDidChange?()
+            case .failure(let error):
+                print("Failed to fetch data:", error)
+            }
+        }
+    }
+}

@@ -15,13 +15,16 @@ class SearchViewController: UIViewController {
     
     private var viewModel: WeatherViewModel
     private var serchView: SearchView
+    
     private let disposeBag = DisposeBag()
     
     // MARK: - Initialization
     
-    init(viewModel: WeatherViewModel){
-        super.init(nibName: nil, bundle: nil)
+    init(viewModel: WeatherViewModel) {
         self.viewModel = viewModel
+        self.serchView = SearchView() // Initialize serchView here
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -33,17 +36,19 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        tuppedSearchButton()
+        tappedSearchButton() // Fixed typo in the function name
     }
     
     // MARK: - User Interaction
     
-    func tuppedSearchButton() {
-        serchView.serchButton.rx.tap.withLatestFrom(serchView.searchTextField.rx.text.orEmpty).subscribe { [weak self] city in
-            self?.viewModel.fetchWeatherData(city: city)
-            self?.viewModel.fetchWeatherWeekData(city: city)
-            self?.dismiss(animated: true, completion: nil)
-        }
+    func tappedSearchButton() {
+        serchView.serchButton.rx.tap.withLatestFrom(serchView.searchTextField.rx.text.orEmpty)
+            .subscribe(onNext: { [weak self] city in
+                self?.viewModel.fetchWeatherData(city: city)
+                self?.viewModel.fetchWeatherWeekData(city: city)
+                self?.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - UI Setup
@@ -59,5 +64,4 @@ class SearchViewController: UIViewController {
             serchView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
 }

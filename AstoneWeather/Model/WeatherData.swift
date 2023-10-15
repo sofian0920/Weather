@@ -9,23 +9,17 @@ import Foundation
 
 // MARK: - Weather Data Structures
 
- struct WeatherData: Codable {
-    let main: Main
-    let weather: [Weather]
+struct WeatherData: Codable {
+    let name: String?
     let coord: Coord
-    let wind: Wind
-    let visibility: Int
-    let clouds: Clouds
-    let name: String
-    let cod: Int
+    let main: Main
+    let visibility: Int?
+    let weather: [Weather]
 }
 
 struct Main: Codable {
-    let temp: Double
-    let feels_like: Double
-    let pressure: Double
-    let humidity: Int
-
+    let temp: Double?
+    let pressure, humidity: Int?
 }
 
 
@@ -40,13 +34,7 @@ struct Weather: Codable {
     let icon: String
 }
 
-struct Clouds: Codable {
-    let all: Int
-}
 
-struct Wind: Codable {
-    let speed: Double
-}
 
 
 // MARK: - Weekly Weather Data Structures
@@ -129,4 +117,50 @@ var nextWeekArray: [WeatherWeekModel] {
         dateFormatter.dateFormat = "EEEE" // Specifies the format for the day of the week
         return dateFormatter.string(from: date)
     }
+}
+
+
+extension WeatherData {
+    
+    var cityName: String {
+        if let cityName = name {
+            return cityName
+        } else {
+            return "N/A"
+        }
+    }
+    
+    var tempratureString: String {
+        if let temp = main.temp {
+            return String(format: "%.1f", temp)
+        } else {
+            return "N/A"
+        }
+    }
+    
+    var humidityString: String {
+        if let humidity = main.humidity {
+            return "\(String(humidity)) %"
+        } else {
+            return "N/A"
+        }
+    }
+    
+    
+    var visibilityString: String {
+        if let visibility = visibility {
+            return "\(String(visibility / 1609)) miles"
+        } else {
+            return "N/A"
+        }
+    }
+    
+    var airPressureString: String {
+        if let air = main.pressure {
+            return "\(String(air)) mb"
+        } else {
+            return "N/A"
+        }
+    }
+    
 }

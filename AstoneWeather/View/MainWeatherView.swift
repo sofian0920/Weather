@@ -156,7 +156,7 @@ class MainWeatherView: UIView {
     func setUp(with weather: WeatherData?) {
         guard let weather = weather else { return }
         cityLabel.text = weather.name
-        tempLabel.text = String(weather.main.temp)
+        tempLabel.text = weather.tempratureString
         dateLabel.text = Converter.shared.currentDate()
     }
     
