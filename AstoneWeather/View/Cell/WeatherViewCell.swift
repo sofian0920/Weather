@@ -16,6 +16,7 @@ class WeatherViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 10)
         label.textAlignment = .center
+        label.text = "day"
         return label
     }()
     
@@ -23,6 +24,7 @@ class WeatherViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textAlignment = .center
+        label.text = "temp"
         return label
     }()
     

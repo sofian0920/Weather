@@ -16,19 +16,19 @@ class MainWeatherView: UIView {
         private let stackViewTopOffset: CGFloat = 150
         private let tempLabelTopOffset: CGFloat = 100
         private let weekViewTopOffset: CGFloat = 100
-        private let nextDaysLabelTopOffset: CGFloat = 100
+        private let nextDaysLabelTopOffset: CGFloat = 20
         private let collectionViewTopOffset: CGFloat = 100
         private let collectionViewLeadingOffset: CGFloat = 40
         private let collectionViewTrailingOffset: CGFloat = -40
         private let collectionViewHeight: CGFloat = 90
-        private let nextDaysLabelLeadingOffset: CGFloat = 200
+        private let nextDaysLabelLeadingOffset: CGFloat = 20
         
 
     
     let searchButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = .white
         button.setImage(UIImage(named: "search"), for: .normal)
+        button.tintColor = .white
         return button
     }()
     
@@ -67,7 +67,8 @@ class MainWeatherView: UIView {
     
     private let nextDaysLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 38)
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.text = "Week weather"
         return label
@@ -94,6 +95,7 @@ class MainWeatherView: UIView {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
+        searchButton.frame = CGRect(x: buttonTrailingOffset, y: buttonTopOffset, width: 100, height: 40)
     }
     
     required init?(coder: NSCoder) {
@@ -141,7 +143,7 @@ class MainWeatherView: UIView {
                    weekView.bottomAnchor.constraint(equalTo: bottomAnchor),
                   
                  
-                   nextDaysLabel.topAnchor.constraint(equalTo: tempLabel.topAnchor, constant: nextDaysLabelTopOffset),
+                   nextDaysLabel.topAnchor.constraint(equalTo: weekView.topAnchor, constant: nextDaysLabelTopOffset),
                    nextDaysLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: nextDaysLabelLeadingOffset),
                    
                    

@@ -30,9 +30,9 @@ final class NetworkManager {
     
     // MARK: - Weather Data Fetch
     
-    func fetchWeatherData(city: String, completion: @escaping (Result<WeatherData, Error>) -> Void) {
+    func fetchWeatherData(city: String, copmletion: @escaping (Result<WeatherData, Error>) -> Void) {
         let urlString = "\(weathDayUrl)&q=\(city)"
-        sendRequest(with: urlString, RequestType: RequestType.GET, decodingType: WeatherData.self, completion: completion)
+        sendRequest(with: urlString, RequestType: RequestType.GET, decodingType: WeatherData.self, completion: copmletion)
     }
     
     func fetchWeatherWeekData(city: String, copmletion: @escaping (Result<WeekData, Error>) -> Void) {
