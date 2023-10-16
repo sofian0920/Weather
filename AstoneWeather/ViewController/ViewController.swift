@@ -81,16 +81,15 @@ class ViewController: UIViewController {
     
     // MARK: - Data Binding
     
-        func bindView() {
-            weatherView.weatherTodayCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-            viewModel.nextWeekData
-                .map { $0?.nextWeekArray ?? [] }
-                .asDriver(onErrorJustReturn: [])
-                .drive(weatherView.weatherTodayCollectionView.rx.items(cellIdentifier: WeatherViewCell.identifier, cellType: WeatherViewCell.self)) { (_, weatherWeekModel, cell) in
-                    cell.configureWeekWeather(with: weatherWeekModel)
-                }.disposed(by: disposeBag)
-        }
-        
+    func bindView() {
+        weatherView.weatherTodayCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        viewModel.nextWeekData
+            .map { $0?.nextWeekArray ?? [] }
+            .asDriver(onErrorJustReturn: [])
+            .drive(weatherView.weatherTodayCollectionView.rx.items(cellIdentifier: WeatherViewCell.identifier, cellType: WeatherViewCell.self)) { (_, weatherWeekModel, cell) in
+                cell.configureWeekWeather(with: weatherWeekModel)
+            }.disposed(by: disposeBag)
+    }
     // MARK: - Location Manager
 
     
@@ -107,6 +106,9 @@ class ViewController: UIViewController {
 }
     // MARK: - UICollectionViewDelegateFlowLayout
     extension ViewController: UICollectionViewDelegateFlowLayout {
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return resized(width: collectionView.frame.width/5 - 7, height: 95)
+        }
            
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 7
@@ -115,6 +117,17 @@ class ViewController: UIViewController {
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
             let edgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
             return edgeInsets
+        }
+        
+        func resized(width: CGFloat, height: CGFloat) -> CGSize {
+            let ratioWH = width / height
+            let heightAdapted = UIScreen.main.bounds.height * (height / 896) * ratioWH
+
+            let ratioHW = height / width
+            let widthAdapted = UIScreen.main.bounds.width * (width / 414) * ratioHW
+
+            let cgcSize = CGSize(width: heightAdapted, height: widthAdapted)
+            return cgcSize
         }
     }
 

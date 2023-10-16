@@ -28,6 +28,8 @@ class WeatherViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -57,7 +59,7 @@ class WeatherViewCell: UICollectionViewCell {
                ])
     }
     
-    
+
 }
     
    
