@@ -10,7 +10,7 @@ import CoreLocation
 import RxSwift
 import RxCocoa
 
-protocol WeatherViewModelType {
+protocol WeatherViewModelProtocol {
     var weatherData: Observable<WeatherData?> { get }
     var nextWeekData: Observable<WeekData?> { get }
     var modelDidChange: (() -> Void)? { get set }
@@ -20,7 +20,9 @@ protocol WeatherViewModelType {
     func fetchWeekWeatherWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees)
 }
 
-class WeatherViewModel: WeatherViewModelType {
+class WeatherViewModel: WeatherViewModelProtocol {
+    
+    
     private let disposeBag = DisposeBag()
     private let _weatherData = BehaviorRelay<WeatherData?>(value: nil)
     private let _nextWeekData = BehaviorRelay<WeekData?>(value: nil)

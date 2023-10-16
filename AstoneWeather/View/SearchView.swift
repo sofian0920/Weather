@@ -59,18 +59,18 @@ class SearchView: UIView {
             searchTextField.translatesAutoresizingMaskIntoConstraints = false
             serchButton.translatesAutoresizingMaskIntoConstraints = false
             
-            NSLayoutConstraint.activate([
-                
-                searchTextField.topAnchor.constraint(equalTo: topAnchor, constant: UIScreen.main.bounds.height * textFieldWidthRatio),
-                searchTextField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * textFieldWidthRatio),
-                searchTextField.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * textFieldHeightRatio),
-                searchTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-                
-                
-                serchButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: UIScreen.main.bounds.height * buttonTopOffsetRatio),
-                serchButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-                serchButton.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * buttonHeightRatio),
-                serchButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * buttonWidthRatio)
-            ])
+        NSLayoutConstraint.activate([
+                   
+                    searchTextField.topAnchor.constraint(equalTo: topAnchor, constant: UIScreen.main.bounds.height * textFieldTopOffsetRatio),
+                    searchTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
+                    searchTextField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * textFieldWidthRatio),
+                    searchTextField.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * textFieldHeightRatio),
+                    
+                    
+                    serchButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: UIScreen.main.bounds.height * buttonTopOffsetRatio),
+                    serchButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+                    serchButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * buttonWidthRatio),
+                    serchButton.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * buttonHeightRatio)
+                ])
         }
 }

@@ -106,6 +106,7 @@ class MainWeatherView: UIView {
         addSubview(searchButton)
         addSubview(firstLineStackView)
         addSubview(tempLabel)
+        addSubview(weekView)
         weekView.addSubview(nextDaysLabel)
         addSubview(weatherTodayCollectionView)
         weatherTodayCollectionView.register(WeatherViewCell.self, forCellWithReuseIdentifier: WeatherViewCell.identifier)
@@ -133,13 +134,13 @@ class MainWeatherView: UIView {
                    tempLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
                    tempLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: tempLabelTopOffset),
                    
-                   
+//                   
                    weekView.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: weekViewTopOffset),
                    weekView.widthAnchor.constraint(equalTo: widthAnchor),
                    weekView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                   
-                   
-                   nextDaysLabel.topAnchor.constraint(equalTo: weekView.topAnchor, constant: nextDaysLabelTopOffset),
+//                   
+//                   
+                   nextDaysLabel.topAnchor.constraint(equalTo: tempLabel.topAnchor, constant: nextDaysLabelTopOffset),
                    nextDaysLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: nextDaysLabelLeadingOffset),
                    
                    
@@ -148,6 +149,7 @@ class MainWeatherView: UIView {
                    weatherTodayCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: collectionViewTrailingOffset),
                    weatherTodayCollectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight),
                    weatherTodayCollectionView.centerXAnchor.constraint(equalTo: centerXAnchor)
+
                ])
     }
     

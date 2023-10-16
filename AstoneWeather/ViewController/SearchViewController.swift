@@ -13,7 +13,7 @@ class SearchViewController: UIViewController {
 
     // MARK: - Properties
     
-    private var viewModel: WeatherViewModel
+    private var viewModel: WeatherViewModelProtocol
     private var serchView: SearchView
     
     private let disposeBag = DisposeBag()
@@ -22,7 +22,7 @@ class SearchViewController: UIViewController {
     
     init(viewModel: WeatherViewModel) {
         self.viewModel = viewModel
-        self.serchView = SearchView() // Initialize serchView here
+        self.serchView = SearchView()
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -54,14 +54,14 @@ class SearchViewController: UIViewController {
     // MARK: - UI Setup
     
     func setupUI() {
-        serchView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(serchView)
-        
-        NSLayoutConstraint.activate([
-            serchView.topAnchor.constraint(equalTo: view.topAnchor),
-            serchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            serchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            serchView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
+            serchView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(serchView)
+
+            NSLayoutConstraint.activate([
+                serchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                serchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                serchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                serchView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
 }

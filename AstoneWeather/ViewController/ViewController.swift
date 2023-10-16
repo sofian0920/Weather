@@ -15,18 +15,20 @@ class ViewController: UIViewController {
     // MARK: - Properties
     
     private let disposeBag = DisposeBag()
-    private var viewModel: WeatherViewModel
+    private var viewModel: WeatherViewModelProtocol
     private var weatherView = MainWeatherView()
     private var locationManager = CLLocationManager()
     
+    
     // MARK: - Initialization
     
-    init(viewModel: WeatherViewModelType) {
-        self.viewModel = viewModel as! WeatherViewModel
+    init(viewModel: WeatherViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
-        self.viewModel.weatherData.compactMap { $0 }
-            .observeOn(MainScheduler.instance)
+        self.viewModel.weatherData
+            .compactMap { $0 }
+            .observeOn( MainScheduler.instance)
             .subscribe { [weak self] weatherData in
                 self?.weatherView.setUp(with: weatherData)
             }.disposed(by: disposeBag)
@@ -37,11 +39,14 @@ class ViewController: UIViewController {
             .subscribe { [weak self] _ in
                 self?.weatherView.weatherTodayCollectionView.reloadData()
             }.disposed(by: disposeBag)
+        
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+    
     
     // MARK: - View Lifecycle
     
@@ -69,7 +74,7 @@ class ViewController: UIViewController {
     // MARK: - Action
     
         @objc private func searchButtonTapped() {
-            let searchViewController = SearchViewController(viewModel: viewModel)
+            let searchViewController = SearchViewController(viewModel: viewModel as! WeatherViewModel)
             let navigationController = UINavigationController(rootViewController: searchViewController)
             present(navigationController, animated: true, completion: nil)
         }
@@ -102,11 +107,7 @@ class ViewController: UIViewController {
 }
     // MARK: - UICollectionViewDelegateFlowLayout
     extension ViewController: UICollectionViewDelegateFlowLayout {
-        
-//        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//            return resized(width: collectionView.frame.width/5 - 7, height: 95)
-//        }
-//        
+           
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 7
         }
