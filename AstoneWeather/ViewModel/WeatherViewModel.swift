@@ -42,7 +42,7 @@ class WeatherViewModel: WeatherViewModelProtocol {
                 switch result {
                 case .success(let weatherData):
                     self?._weatherData.accept(weatherData)
-//                    self?.weatherData = weatherData
+                    self?.weatherData = weatherData
                     self?.modelDidChange?()
                 case .failure(let error):
                     print("Failed to fetch data:", error)
@@ -55,6 +55,7 @@ class WeatherViewModel: WeatherViewModelProtocol {
             switch result {
             case .success(let weatherData):
                 self?._weatherData.accept(weatherData)
+                self?.weatherData = weatherData
                 self?.modelDidChange?()
             case .failure(let error):
                 print("Failed to fetch data:", error)
@@ -67,7 +68,7 @@ class WeatherViewModel: WeatherViewModelProtocol {
             switch result {
             case .success(let nextWeekData):
                 self?._nextWeekData.accept(nextWeekData)
-//                self?.nextWeekData = nextWeekData
+                self?.nextWeekData = nextWeekData
                 self?.modelDidChange?()
             case .failure(let error):
                 print("Failed to fetch data:", error)
@@ -80,7 +81,7 @@ class WeatherViewModel: WeatherViewModelProtocol {
             switch result {
             case .success(let nextWeekData):
                 self?._nextWeekData.accept(nextWeekData)
-//                self?.nextWeekData = weatherData
+                self?.nextWeekData = weatherData/
                 self?.modelDidChange?()
             case .failure(let error):
                 print("Failed to fetch data:", error)
