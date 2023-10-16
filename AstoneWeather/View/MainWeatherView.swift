@@ -7,14 +7,13 @@
 
 import UIKit
 
-
 class MainWeatherView: UIView {
     
     // MARK: - UI Elements
     
         private let buttonTopOffset: CGFloat = 100
         private let buttonTrailingOffset: CGFloat = 100
-        private let stackViewTopOffset: CGFloat = 40
+        private let stackViewTopOffset: CGFloat = 150
         private let tempLabelTopOffset: CGFloat = 100
         private let weekViewTopOffset: CGFloat = 100
         private let nextDaysLabelTopOffset: CGFloat = 100
@@ -24,16 +23,18 @@ class MainWeatherView: UIView {
         private let collectionViewHeight: CGFloat = 90
         private let nextDaysLabelLeadingOffset: CGFloat = 200
         
+
     
     let searchButton: UIButton = {
         let button = UIButton(type: .system)
+        button.tintColor = .white
         button.setImage(UIImage(named: "search"), for: .normal)
-        button.tintColor = .black
         return button
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = .center
         label.text = "Date"
@@ -51,7 +52,7 @@ class MainWeatherView: UIView {
     
     private let tempLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 40)
         label.textAlignment = .center
         label.text = "Temperature"
@@ -134,12 +135,12 @@ class MainWeatherView: UIView {
                    tempLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
                    tempLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: tempLabelTopOffset),
                    
-//                   
+                   
                    weekView.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: weekViewTopOffset),
                    weekView.widthAnchor.constraint(equalTo: widthAnchor),
                    weekView.bottomAnchor.constraint(equalTo: bottomAnchor),
-//                   
-//                   
+                  
+                 
                    nextDaysLabel.topAnchor.constraint(equalTo: tempLabel.topAnchor, constant: nextDaysLabelTopOffset),
                    nextDaysLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: nextDaysLabelLeadingOffset),
                    

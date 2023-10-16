@@ -17,6 +17,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
     private let didUpdateLocationsSubject = PublishSubject<[CLLocation]>()
     private let disposeBag = DisposeBag()
+    
     private override init() {
         super.init()
         locationManager.delegate = self
@@ -45,12 +46,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            didUpdateLocationsSubject.onNext(locations)
-        }
-        
-        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-            print("Location error: \(error.localizedDescription)")
-        }
+        didUpdateLocationsSubject.onNext(locations)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location error: \(error.localizedDescription)")
     }
 }

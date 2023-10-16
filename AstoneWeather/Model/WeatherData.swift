@@ -69,14 +69,14 @@ extension WeekData {
         if let temp = list[0].main.temp  {
             return "\(String(format: "%.0f", temp - 273.15))°C"
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
     var temp2String: String {
         if let temp = list[7].main.temp  {
             return "\(String(format: "%.0f", temp - 273.15))°C"
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
     
@@ -84,7 +84,7 @@ extension WeekData {
         if let temp = list[14].main.temp {
             return "\(String(format: "%.0f", temp - 273.15))°C"
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
     
@@ -92,7 +92,7 @@ extension WeekData {
         if let temp = list[21].main.temp {
             return "\(String(format: "%.0f", temp - 273.15))°C"
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
     
@@ -100,7 +100,7 @@ extension WeekData {
         if let temp = list[28].main.temp {
             return "\(String(format: "%.0f", temp - 273.15))°C"
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
 
@@ -120,7 +120,7 @@ extension WeatherData {
         if let cityName = name {
             return cityName
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
     
@@ -128,7 +128,7 @@ extension WeatherData {
         if let temp = main.temp {
             return String(format: "%.1f", temp)
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
     
@@ -136,7 +136,7 @@ extension WeatherData {
         if let humidity = main.humidity {
             return "\(String(humidity)) %"
         } else {
-            return "N/A"
+            return "Unknown"
         }
     }
 }
