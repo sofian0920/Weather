@@ -13,7 +13,6 @@ struct WeatherData: Codable {
     let name: String?
     let coord: Coord
     let main: Main
-    let visibility: Int?
     let weather: [Weather]
 }
 
@@ -111,12 +110,7 @@ var nextWeekArray: [WeatherWeekModel] {
             WeatherWeekModel(day: Converter.shared.dateToString(day: 3), temp: temp3String),
             WeatherWeekModel(day: Converter.shared.dateToString(day: 4), temp: temp4String),
             WeatherWeekModel(day: Converter.shared.dateToString(day: 5), temp: temp5String)]
-}
-    func getDayOfWeek(from date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE" // Specifies the format for the day of the week
-        return dateFormatter.string(from: date)
-    }
+  }
 }
 
 
@@ -145,22 +139,4 @@ extension WeatherData {
             return "N/A"
         }
     }
-    
-    
-    var visibilityString: String {
-        if let visibility = visibility {
-            return "\(String(visibility / 1609)) miles"
-        } else {
-            return "N/A"
-        }
-    }
-    
-    var airPressureString: String {
-        if let air = main.pressure {
-            return "\(String(air)) mb"
-        } else {
-            return "N/A"
-        }
-    }
-    
 }
