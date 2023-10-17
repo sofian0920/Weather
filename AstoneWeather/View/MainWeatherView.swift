@@ -11,10 +11,10 @@ class MainWeatherView: UIView {
     
     // MARK: - UI Elements
     
-        private let buttonTopOffset: CGFloat = 100
+        private let buttonTopOffset: CGFloat = -100
         private let buttonTrailingOffset: CGFloat = 100
         private let stackViewTopOffset: CGFloat = 150
-        private let tempLabelTopOffset: CGFloat = 100
+        private let tempLabelTopOffset: CGFloat = 50
         private let weekViewTopOffset: CGFloat = 100
         private let nextDaysLabelTopOffset: CGFloat = 20
         private let collectionViewTopOffset: CGFloat = 100

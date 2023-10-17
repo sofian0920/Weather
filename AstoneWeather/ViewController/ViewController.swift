@@ -28,14 +28,14 @@ class ViewController: UIViewController {
         
         self.viewModel.weatherData
             .compactMap { $0 }
-            .observeOn( MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .subscribe { [weak self] weatherData in
                 self?.weatherView.setUp(with: weatherData)
             }.disposed(by: disposeBag)
         
         self.viewModel.nextWeekData
             .compactMap { $0 }
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .subscribe { [weak self] _ in
                 self?.weatherView.weatherTodayCollectionView.reloadData()
             }.disposed(by: disposeBag)

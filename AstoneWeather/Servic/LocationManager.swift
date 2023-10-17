@@ -5,7 +5,6 @@
 //  Created by Софья Норина on 11.10.2023.
 //
 
-import Foundation
 import CoreLocation
 import RxSwift
 import RxCocoa
