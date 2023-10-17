@@ -19,6 +19,12 @@ class SearchView: UIView {
     private let buttonHeightRatio: CGFloat = 30 / 896
     private let buttonWidthRatio: CGFloat = 150 / 414
     
+    let whiteView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 50
+        return view
+    }()
     
     let searchTextField: UITextField = {
         let textField = UITextField()
@@ -41,6 +47,7 @@ class SearchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupConstraints()
         
     }
     
@@ -51,15 +58,21 @@ class SearchView: UIView {
     // MARK: - Setup Functions
     
     private func setupUI() {
+        addSubview(whiteView)
         addSubview(searchTextField)
         addSubview(serchButton)
     }
     
     private func setupConstraints() {
+            whiteView.translatesAutoresizingMaskIntoConstraints = false
             searchTextField.translatesAutoresizingMaskIntoConstraints = false
             serchButton.translatesAutoresizingMaskIntoConstraints = false
             
         NSLayoutConstraint.activate([
+            
+                    whiteView.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
+                    whiteView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * textFieldWidthRatio),
+                    whiteView.heightAnchor.constraint(equalToConstant: 300 ),
                    
                     searchTextField.topAnchor.constraint(equalTo: topAnchor, constant: UIScreen.main.bounds.height * textFieldTopOffsetRatio),
                     searchTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
