@@ -106,10 +106,7 @@ class ViewController: UIViewController {
 }
     // MARK: - UICollectionViewDelegateFlowLayout
     extension ViewController: UICollectionViewDelegateFlowLayout {
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return resized(width: collectionView.frame.width/5 - 7, height: 95)
-        }
-           
+//
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             return 7
         }
@@ -119,16 +116,6 @@ class ViewController: UIViewController {
             return edgeInsets
         }
         
-        func resized(width: CGFloat, height: CGFloat) -> CGSize {
-            let ratioWH = width / height
-            let heightAdapted = UIScreen.main.bounds.height * (height / 896) * ratioWH
-
-            let ratioHW = height / width
-            let widthAdapted = UIScreen.main.bounds.width * (width / 414) * ratioHW
-
-            let cgcSize = CGSize(width: heightAdapted, height: widthAdapted)
-            return cgcSize
-        }
     }
 
 
