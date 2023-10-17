@@ -18,7 +18,6 @@ struct WeatherData: Codable {
 
 struct Main: Codable {
     let temp: Double?
-    let pressure, humidity: Int?
 }
 
 
@@ -127,14 +126,6 @@ extension WeatherData {
     var tempratureString: String {
         if let temp = main.temp {
             return "\(String(format: "%.0f", temp))°C"
-        } else {
-            return "Unknown"
-        }
-    }
-    
-    var humidityString: String {
-        if let humidity = main.humidity {
-            return "\(String(humidity)) %"
         } else {
             return "Unknown"
         }

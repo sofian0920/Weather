@@ -38,6 +38,7 @@ class SearchView: UIView {
         button.setTitle("Search", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.backgroundColor = .blue
+        button.layer.cornerRadius = 10
         button.tintColor = .white
         return button
     }()

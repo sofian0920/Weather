@@ -27,9 +27,9 @@ class MainWeatherView: UIView {
     
     let searchButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .blue
-        button.setImage(UIImage(named: "Search"), for: .normal)
-        button.tintColor = .white
+        button.setTitle("Search", for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.layer.cornerRadius = 3
         return button
     }()
     
