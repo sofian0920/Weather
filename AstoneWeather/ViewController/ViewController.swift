@@ -94,7 +94,7 @@ class ViewController: UIViewController {
 
     
     func setupLocationManager() {
-        LocationManager.shared.getCurrentLocation()
+        LocationManager.shared.getLocation()
             .subscribe(onNext: { [weak self] location in
                 self?.viewModel.fetchWeatherWithLocation(latitude: location.latitude, longitude: location.longitude)
                 self?.viewModel.fetchWeekWeatherWithLocation(latitude: location.latitude, longitude: location.longitude)
