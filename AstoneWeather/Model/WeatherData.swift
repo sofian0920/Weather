@@ -126,7 +126,7 @@ extension WeatherData {
     
     var tempratureString: String {
         if let temp = main.temp {
-            return String(format: "%.1f", temp)
+            return "\(String(format: "%.0f", temp))°C"
         } else {
             return "Unknown"
         }

@@ -70,9 +70,10 @@ class SearchView: UIView {
             
         NSLayoutConstraint.activate([
             
-                    whiteView.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
-                    whiteView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * textFieldWidthRatio),
-                    whiteView.heightAnchor.constraint(equalToConstant: 300 ),
+                    whiteView.topAnchor.constraint(equalTo: self.topAnchor),
+                    whiteView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                    whiteView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                    whiteView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
                    
                     searchTextField.topAnchor.constraint(equalTo: topAnchor, constant: UIScreen.main.bounds.height * textFieldTopOffsetRatio),
                     searchTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
